@@ -1,6 +1,7 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.js";
+import { useState } from "react";
 
 function App() {
 
@@ -42,6 +43,11 @@ function App() {
         <figcaption class="blockquote-footer">add character limit.</figcaption>
         <button className="btn btn-primary">Click Me</button>
       </figure>
+      <div className="flex form-row">
+        <input class="form-control" type="text" placeholder="New Note" />
+        <button class="btn btn-primary" type="submit">Submit form</button>
+      </div>
+
 
       
 
