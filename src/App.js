@@ -1,9 +1,23 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.js";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+
 import { useState } from "react";
 
+import React, { useEffect } from 'react';
+import $ from 'jquery';
+
+
 function App() {
+
+  useEffect(() => {
+    $('#exampleModal').on('shown.bs.modal', function () {
+      $('#myInput').trigger('focus');
+    });
+  }, []);
+
 
   // how to have a local storage in a react app
 
@@ -44,20 +58,67 @@ function App() {
         <button className="btn btn-primary">Click Me</button>
       </figure>
 
+        {/* App Header */}
+      <div class="jumbotron jumbotron-fluid mx-4 mt-5">
+        <div class="container">
+          <h1 class="display-4">React Notes App</h1>
+          <p class="lead">A local storage & dynamic note app using Bootstrap</p>
+        </div>
+      </div>
+
         {/* input for adding note */}
-      <form class="mt-5 mx-4">
+      <form class="container mt-5 mx-5">
         <div class="row">
             <label for="exampleFormControlTextarea1">New note input</label>
             <div class="col-9">
               <input type="text" class="form-control" placeholder="Write here" />
           </div>
-          <div class="col">
+          <div class="col gx-0">
             <button type="submit" class="btn btn-primary" placeholder="Last name">Submit</button>
           </div>
         </div>
       </form>
 
+        {/* basic notes text */}
+      <ul class="list-group mt-5 mx-5">
+        <li class="list-group-item">Sample Text 1</li>
+        <li class="list-group-item">Sample Text 2</li>
+        <li class="list-group-item">Sample Text 3</li>
+        <li class="list-group-item">Sample Text 4</li>
+        <li class="list-group-item">Sample Text 5</li>
+      </ul>
 
+        {/* reset button  */}
+      <div>
+          {/* clear all button */}
+        <button type="button" className="btn btn-primary mx-5 mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          Clear All - Modal
+        </button>
+          {/* modal stuff */}
+        <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div className="modal-dialog" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalLabel">Clearing All Notes</h5>
+                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div className="modal-body">
+                Are you sure you want to clear all your notes?
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" className="btn btn-primary">Clear All</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+        {/* just gaps - delete later */}
+      <div class="py-5"><p>.</p></div>
+      <div class="py-5"><p>.</p></div>
+      <div class="py-5"><p>.</p></div>
+    
 
       <div></div>
     </div>
