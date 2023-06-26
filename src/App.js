@@ -43,13 +43,21 @@ function App() {
         <figcaption class="blockquote-footer">add character limit.</figcaption>
         <button className="btn btn-primary">Click Me</button>
       </figure>
-      <div className="flex form-row">
-        <input class="form-control" type="text" placeholder="New Note" />
-        <button class="btn btn-primary" type="submit">Submit form</button>
-      </div>
+
+        {/* input for adding note */}
+      <form class="mt-5 mx-4">
+        <div class="row">
+            <label for="exampleFormControlTextarea1">New note input</label>
+            <div class="col-9">
+              <input type="text" class="form-control" placeholder="Write here" />
+          </div>
+          <div class="col">
+            <button type="submit" class="btn btn-primary" placeholder="Last name">Submit</button>
+          </div>
+        </div>
+      </form>
 
 
-      
 
       <div></div>
     </div>
