@@ -12,6 +12,8 @@ import $ from 'jquery';
 
 function App() {
 
+  const [notesItemList,setNotesItemList] = useState("a text sample");
+
   useEffect(() => {
     $('#exampleModal').on('shown.bs.modal', function () {
       $('#myInput').trigger('focus');
@@ -86,7 +88,54 @@ function App() {
         <li class="list-group-item">Sample Text 3</li>
         <li class="list-group-item">Sample Text 4</li>
         <li class="list-group-item">Sample Text 5</li>
+        <li class="list-group-item">Sample Text 5</li>
       </ul>
+
+        {/* map item list from array */}
+      {/* notesItemList */}
+      <div>
+      {notesItemList.map((input)=>(
+        <li>{notesItemList}</li>
+      ))}
+      </div>
+
+      <ul class="list-group mx-5 mt-5">
+        <li class="list-group-item">text abc</li>
+      </ul>
+
+        {/* map item list - sample */}
+      {/* List Items Generator */}
+      {/* <ol className="list-decimal grid gap-2">
+              {inputValues.map((input) => (
+                <li
+                  key={input.id}
+                  className="flex flex-grow justify-between" //added
+                >
+                  <input
+                    className={`${
+                      input.value === "" ? "bg-slate-100/50" : "bg-slate-100/10"
+                    } px-2 py-3 hover:bg-slate-100/80 rounded font-mono text-xs w-full`} //w-full mb-2
+                    value={input.value}
+                    onChange={(e) => handleInputChange(e, input.id)}
+                    placeholder="to do?"
+                    type="text"
+                    style={{
+                      textDecoration:
+                        input.isChecked && input.value !== ""
+                          ? "line-through"
+                          : "none",
+                    }}
+                  />
+                  <input
+                    type="checkbox"
+                    checked={input.isChecked}
+                    onChange={(e) => handleCheckboxChange(e, input.id)}
+                    className="ml-3 h-auto w-auto checked:accent-green-600 rounded" //h-[15px] w-[15px] remove
+                    disabled={!input.value}
+                  />
+                </li>
+              ))}
+            </ol> */}
 
         {/* reset button  */}
       <div>
