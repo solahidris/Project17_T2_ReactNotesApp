@@ -93,11 +93,11 @@ function App() {
 
         {/* map item list from array */}
       {/* notesItemList */}
-      <div>
+      {/* <div>
       {notesItemList.map((input)=>(
         <li>{notesItemList}</li>
       ))}
-      </div>
+      </div> */}
 
       <ul class="list-group mx-5 mt-5">
         <li class="list-group-item">text abc</li>
