@@ -13,6 +13,7 @@ import $ from 'jquery';
 function App() {
 
   const [notesItemList,setNotesItemList] = useState("a text sample");
+  const [notesTest,setNotesTest] = useState(["string 1","string 2"]);
 
   useEffect(() => {
     $('#exampleModal').on('shown.bs.modal', function () {
@@ -98,6 +99,9 @@ function App() {
         <li>{notesItemList}</li>
       ))}
       </div> */}
+
+        {/* map test */}
+      {notesTest.map(()=>(<li>{notesTest}</li>))}
 
       <ul class="list-group mx-5 mt-5">
         <li class="list-group-item">text abc</li>
