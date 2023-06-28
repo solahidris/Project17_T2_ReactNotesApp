@@ -13,7 +13,22 @@ import $ from 'jquery';
 function App() {
 
   const [notesItemList,setNotesItemList] = useState("a text sample");
-  const [notesTest,setNotesTest] = useState(["string 1","string 2"]);
+
+  // const [notesTest, setNotesTest] = useState(["string 1", "string 2"]);
+
+  // const addNotesTestHandler = (event) => {
+  //   setNotesTest(event.target.value);
+  // };
+
+  const [notesTest, setNotesTest] = useState(["string 1", "string 2"]);
+  const [newNote, setNewNote] = useState("");
+
+  const addNotesTestHandler = (event) => {
+    event.preventDefault();
+    setNotesTest([...notesTest, newNote]);
+    setNewNote(""); // Reset the input field after adding a note
+  };
+
 
   useEffect(() => {
     $('#exampleModal').on('shown.bs.modal', function () {
@@ -69,18 +84,28 @@ function App() {
         </div>
       </div>
 
-        {/* input for adding note */}
-      <form class="container mt-5 mx-5">
-        <div class="row">
-            <label for="exampleFormControlTextarea1">New note input</label>
-            <div class="col-9">
-              <input type="text" class="form-control" placeholder="Write here" />
+        {/* TEST-input for adding note */}
+        <form className="container mt-5 mx-5">
+          <div className="row">
+            <label htmlFor="exampleFormControlTextarea1">New note input</label>
+            <div className="col-9">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Write here"
+                value={newNote}
+                onChange={(event) => setNewNote(event.target.value)}
+              />
+            </div>
+            <div className="col gx-0">
+              <button type="submit" onClick={addNotesTestHandler} className="btn btn-primary">
+                Submit
+              </button>
+            </div>
           </div>
-          <div class="col gx-0">
-            <button type="submit" class="btn btn-primary" placeholder="Last name">Submit</button>
-          </div>
-        </div>
-      </form>
+        </form>
+
+
 
         {/* basic notes text */}
       <ul class="list-group mt-5 mx-5">
@@ -101,7 +126,7 @@ function App() {
       </div> */}
 
         {/* map test */}
-      {notesTest.map(()=>(<li>{notesTest}</li>))}
+      {notesTest.map((note, index) => (<li key={index}>{note}</li>))}
 
       <ul class="list-group mx-5 mt-5">
         <li class="list-group-item">text abc</li>
