@@ -70,31 +70,35 @@ function App() {
 
   return (
     <div className="App">
-      <div className="py-5"></div>
+      <div className="py-3"></div>
 
-      <figure class="text-center">
-        <blockquote class="blockquote"><p>A React Notes App</p></blockquote>
-        <figcaption class="blockquote-footer">users can enter text to each note and</figcaption>
-        <figcaption class="blockquote-footer">save it in local storage,</figcaption>
-        <figcaption class="blockquote-footer">delete an existing note,</figcaption>
-        <figcaption class="blockquote-footer">dynamically search among the notes and</figcaption>
-        <figcaption class="blockquote-footer">add character limit.</figcaption>
-        <button className="btn btn-primary">Click Me</button>
-      </figure>
+      <p class="fs-3 fw-semibold mx-5">A React Notes App</p>
+      <ol class="list-group list-group-numbered mx-5 pb-5">
+        <li class="list-group-item">users can enter text to each note and</li>
+        <li class="list-group-item">save it in local storage,</li>
+        <li class="list-group-item">delete an existing note,</li>
+        <li class="list-group-item">dynamically search among the notes and</li>
+        <li class="list-group-item">add character limit.</li>
+      </ol>
+
+        {/* Just a line */}
+      <div class="d-flex justify-content-center">
+        <p class="text-body-tertiary">------------------------------------------------------------</p>
+      </div>
 
         {/* App Header */}
       <div class="jumbotron jumbotron-fluid mx-4 mt-5">
         <div class="container">
-          <h1 class="display-4">React Notes App</h1>
+          <h1 class="display-4 fw-semibold">React Notes App</h1>
           <p class="lead">A local storage & dynamic note app using Bootstrap</p>
         </div>
       </div>
 
         {/* TEST-input for adding note */}
-        <form className="container mt-5 mx-3">
+        <form className="container mt-5 mx-5">
           <div className="row">
             <label htmlFor="exampleFormControlTextarea1">New note input</label>
-            <div className="col-9">
+            <div className="col-6">
               <input
                 type="text"
                 className="form-control"
@@ -123,44 +127,10 @@ function App() {
         ))}
       </div>
 
-        {/* map item list - sample */}
-      {/* List Items Generator */}
-      {/* <ol className="list-decimal grid gap-2">
-              {inputValues.map((input) => (
-                <li
-                  key={input.id}
-                  className="flex flex-grow justify-between" //added
-                >
-                  <input
-                    className={`${
-                      input.value === "" ? "bg-slate-100/50" : "bg-slate-100/10"
-                    } px-2 py-3 hover:bg-slate-100/80 rounded font-mono text-xs w-full`} //w-full mb-2
-                    value={input.value}
-                    onChange={(e) => handleInputChange(e, input.id)}
-                    placeholder="to do?"
-                    type="text"
-                    style={{
-                      textDecoration:
-                        input.isChecked && input.value !== ""
-                          ? "line-through"
-                          : "none",
-                    }}
-                  />
-                  <input
-                    type="checkbox"
-                    checked={input.isChecked}
-                    onChange={(e) => handleCheckboxChange(e, input.id)}
-                    className="ml-3 h-auto w-auto checked:accent-green-600 rounded" //h-[15px] w-[15px] remove
-                    disabled={!input.value}
-                  />
-                </li>
-              ))}
-            </ol> */}
-
         {/* reset button  */}
       <div>
           {/* clear all button */}
-        <button type="button" className="btn btn-primary mx-5 mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        <button type="button" className="btn btn-danger mx-5 mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
           Clear All - Modal
         </button>
           {/* modal stuff */}
@@ -176,7 +146,7 @@ function App() {
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button onClick={clearAllHandler} type="button" className="btn btn-primary" data-bs-dismiss="modal">Clear All</button>
+                <button onClick={clearAllHandler} type="button" className="btn btn-danger" data-bs-dismiss="modal">Clear All</button>
               </div>
             </div>
           </div>
