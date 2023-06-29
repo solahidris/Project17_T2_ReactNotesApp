@@ -25,8 +25,10 @@ function App() {
 
   const addNotesTestHandler = (event) => {
     event.preventDefault();
+    if (newNote !== "") {
     setNotesTest([...notesTest, newNote]);
     setNewNote(""); // Reset the input field after adding a note
+    }
   };
 
 
@@ -35,6 +37,10 @@ function App() {
       $('#myInput').trigger('focus');
     });
   }, []);
+
+  const clearAllHandler = () => {
+    setNotesTest([]);
+  };
 
 
   // how to have a local storage in a react app
@@ -85,7 +91,7 @@ function App() {
       </div>
 
         {/* TEST-input for adding note */}
-        <form className="container mt-5 mx-5">
+        <form className="container mt-5 mx-3">
           <div className="row">
             <label htmlFor="exampleFormControlTextarea1">New note input</label>
             <div className="col-9">
@@ -105,32 +111,17 @@ function App() {
           </div>
         </form>
 
-
-
         {/* basic notes text */}
-      <ul class="list-group mt-5 mx-5">
-        <li class="list-group-item">Sample Text 1</li>
-        <li class="list-group-item">Sample Text 2</li>
-        <li class="list-group-item">Sample Text 3</li>
-        <li class="list-group-item">Sample Text 4</li>
-        <li class="list-group-item">Sample Text 5</li>
-        <li class="list-group-item">Sample Text 5</li>
-      </ul>
-
-        {/* map item list from array */}
-      {/* notesItemList */}
-      {/* <div>
-      {notesItemList.map((input)=>(
-        <li>{notesItemList}</li>
-      ))}
-      </div> */}
-
         {/* map test */}
-      {notesTest.map((note, index) => (<li key={index}>{note}</li>))}
-
-      <ul class="list-group mx-5 mt-5">
-        <li class="list-group-item">text abc</li>
-      </ul>
+      <div class="mt-5">
+        {notesTest.map((note, index) => (
+          <ul class="list-group">
+            <li key={index} class="list-group-item mx-5">
+              {note}
+            </li>
+          </ul>
+        ))}
+      </div>
 
         {/* map item list - sample */}
       {/* List Items Generator */}
@@ -185,7 +176,7 @@ function App() {
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" className="btn btn-primary">Clear All</button>
+                <button onClick={clearAllHandler} type="button" className="btn btn-primary" data-bs-dismiss="modal">Clear All</button>
               </div>
             </div>
           </div>
