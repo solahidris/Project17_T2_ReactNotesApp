@@ -12,15 +12,11 @@ import $ from 'jquery';
 
 function App() {
 
-  const [notesItemList,setNotesItemList] = useState("a text sample");
-
-  // const [notesTest, setNotesTest] = useState(["string 1", "string 2"]);
-
-  // const addNotesTestHandler = (event) => {
-  //   setNotesTest(event.target.value);
-  // };
-
-  const [notesTest, setNotesTest] = useState(["string 1", "string 2"]);
+  const [notesTest, setNotesTest] = useState(() => {
+    // Retrieve data from local storage or use a default value
+    const storedData = localStorage.getItem('notesTest');
+    return storedData ? JSON.parse(storedData) : ['string 1', 'string 2'];
+  });
   const [newNote, setNewNote] = useState("");
 
   const addNotesTestHandler = (event) => {
@@ -31,42 +27,22 @@ function App() {
     }
   };
 
-
   useEffect(() => {
+    // Modal Clear All Button
     $('#exampleModal').on('shown.bs.modal', function () {
       $('#myInput').trigger('focus');
     });
-  }, []);
+    // Local Storage SAVE Data
+    // Update local storage whenever notesTest changes
+    localStorage.setItem('notesTest', JSON.stringify(notesTest));
+  }, [notesTest]);
 
   const clearAllHandler = () => {
     setNotesTest([]);
   };
 
-
-  // how to have a local storage in a react app
-
-  // Storing data in local storage:
-  // Get the data you want to store
-  const data = { name: "John", age: 25 };
-
-  // Store the data in local storage
-  localStorage.setItem("myData", JSON.stringify(data));
-
-  // Retrieving data from local storage:
-  // Retrieve the data from local storage
-  const storedData = localStorage.getItem("myData");
-
-  // Check if the data exists
-  if (storedData) {
-    const parsedData = JSON.parse(storedData);
-    // Use the data as needed
-  }
-
   // Removing data from local storage:
-  // Remove the data from local storage
-  localStorage.removeItem("myData");
-
-  // Remember to handle edge cases and potential errors, such as when the data doesn't exist in local storage or when the browser has disabled local storage.
+  // localStorage.removeItem("myData");
 
   return (
     <div className="App">
