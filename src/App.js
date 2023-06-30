@@ -50,8 +50,8 @@ function App() {
 
       <p class="fs-3 fw-semibold mx-5">A React Notes App</p>
       <ol class="list-group list-group-numbered mx-5 pb-5">
-        <li class="list-group-item">users can enter text to each note and</li>
-        <li class="list-group-item">save it in local storage,</li>
+        <li class="list-group-item text-decoration-line-through">users can enter text to each note and</li>
+        <li class="list-group-item text-decoration-line-through">save it in local storage,</li>
         <li class="list-group-item">delete an existing note,</li>
         <li class="list-group-item">dynamically search among the notes and</li>
         <li class="list-group-item">add character limit.</li>
