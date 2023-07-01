@@ -45,6 +45,18 @@ function App() {
     setNotesTestWithLocalStorage([]);
   };
 
+  const handleEditNote = (index, newValue) => {
+    const updatedNotes = [...notesData];
+    updatedNotes[index] = newValue;
+    setNotesData(updatedNotes);
+  };
+
+  const handleDeleteNote = (index) => {
+    const updatedNotes = [...notesData];
+    updatedNotes.splice(index, 1);
+    setNotesData(updatedNotes);
+  };
+
   return (
     <div className="App">
       <div className="py-3"></div>
@@ -92,29 +104,26 @@ function App() {
           </div>
         </form>
 
-        {/* basic notes text
-        map test
+        {/* Map Data Array */}
       <div class="mt-5">
+        <ul class="list-group">
         {notesData.map((note, index) => (
-          <ul class="list-group">
-            <li key={index} class="list-group-item mx-5">
-              {note}
-            </li>
-          </ul>
+          <li key={index}>
+            {typeof note === 'string' ? (
+              <span>{note}</span>
+            ) : (
+              <input
+                type="text"
+                defaultValue={note.value}
+                onBlur={(event) => handleEditNote(index, event.target.value)}
+              />
+            )}
+            <button onClick={() => handleEditNote(index, { value: note })}>Edit</button>
+            <button onClick={() => handleDeleteNote(index)}>Delete</button>
+          </li>
         ))}
-      </div> */}
-      
-        {/* basic notes text
-        {/* map test */}
-      <div class="mt-5">
-        {notesData.map((note, index) => (
-          <ul class="list-group">
-            <li key={index} class="list-group-item mx-5">
-              {note}
-            </li>
-          </ul>
-        ))}
-      </div> */}
+        </ul>
+      </div>
 
         {/* reset button  */}
       <div>
@@ -142,15 +151,7 @@ function App() {
         </div>
       </div>
 
-      <div>
-        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseButtons" aria-expanded="false" aria-controls="collapseButtons">
-          Toggle Buttons
-        </button>
-        <div class="collapse" id="collapseButtons" data-bs-parent="#parentElement">
-          <button class="btn btn-outline-primary">Edit</button>
-          <button class="btn btn-outline-danger">Delete</button>
-        </div>
-      </div>
+
 
 
 
