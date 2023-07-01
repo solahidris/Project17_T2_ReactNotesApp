@@ -4,26 +4,32 @@ import "bootstrap/dist/js/bootstrap.js";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
-import { useState } from "react";
+import React from 'react';
+import { useEffect, useState, useMemo } from 'react';
 
-import React, { useEffect } from 'react';
 import $ from 'jquery';
 
 
 function App() {
-
-  const [notesTest, setNotesTest] = useState(() => {
-    // Retrieve data from local storage or use a default value
-    const storedData = localStorage.getItem('notesTest');
-    return storedData ? JSON.parse(storedData) : ['string 1', 'string 2'];
-  });
   const [newNote, setNewNote] = useState("");
+  
+  const [notesData, setNotesData] = useState(() => {
+    const localStorageData = localStorage.getItem('notesData');
+    return localStorageData ? JSON.parse(localStorageData) : [];
+  });
+
+  const setNotesTestWithLocalStorage = useMemo(() => {
+    return (newNotes) => {
+      setNotesData(newNotes);
+      localStorage.setItem('notesData', JSON.stringify(newNotes));
+    };
+  }, []);
 
   const addNotesTestHandler = (event) => {
     event.preventDefault();
     if (newNote !== "") {
-    setNotesTest([...notesTest, newNote]);
-    setNewNote(""); // Reset the input field after adding a note
+      setNotesTestWithLocalStorage([...notesData, newNote]);
+      setNewNote(""); // Reset the input field after adding a note
     }
   };
 
@@ -32,17 +38,12 @@ function App() {
     $('#exampleModal').on('shown.bs.modal', function () {
       $('#myInput').trigger('focus');
     });
-    // Local Storage SAVE Data
-    // Update local storage whenever notesTest changes
-    localStorage.setItem('notesTest', JSON.stringify(notesTest));
-  }, [notesTest]);
+    localStorage.setItem('notesData', JSON.stringify(notesData));
+  }, [notesData]);
 
   const clearAllHandler = () => {
-    setNotesTest([]);
+    setNotesTestWithLocalStorage([]);
   };
-
-  // Removing data from local storage:
-  // localStorage.removeItem("myData");
 
   return (
     <div className="App">
@@ -91,17 +92,29 @@ function App() {
           </div>
         </form>
 
-        {/* basic notes text */}
-        {/* map test */}
+        {/* basic notes text
+        map test
       <div class="mt-5">
-        {notesTest.map((note, index) => (
+        {notesData.map((note, index) => (
           <ul class="list-group">
             <li key={index} class="list-group-item mx-5">
               {note}
             </li>
           </ul>
         ))}
-      </div>
+      </div> */}
+      
+        {/* basic notes text
+        {/* map test */}
+      <div class="mt-5">
+        {notesData.map((note, index) => (
+          <ul class="list-group">
+            <li key={index} class="list-group-item mx-5">
+              {note}
+            </li>
+          </ul>
+        ))}
+      </div> */}
 
         {/* reset button  */}
       <div>
@@ -128,6 +141,18 @@ function App() {
           </div>
         </div>
       </div>
+
+      <div>
+        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseButtons" aria-expanded="false" aria-controls="collapseButtons">
+          Toggle Buttons
+        </button>
+        <div class="collapse" id="collapseButtons" data-bs-parent="#parentElement">
+          <button class="btn btn-outline-primary">Edit</button>
+          <button class="btn btn-outline-danger">Delete</button>
+        </div>
+      </div>
+
+
 
         {/* just gaps - delete later */}
       <div class="py-5"><p>.</p></div>
