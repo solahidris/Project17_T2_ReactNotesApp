@@ -51,6 +51,16 @@ function App() {
     setNotesData(updatedNotes);
   };
 
+  const handleDoneEditNote = (index) => {
+    const updatedNotes = [...notesData];
+    const note = updatedNotes[index];
+    if (typeof note !== 'string') {
+      note.isEditing = false;
+      note.value = note.editValue;
+    }
+    setNotesData(updatedNotes);
+  };
+
   const handleDeleteNote = (index) => {
     const updatedNotes = [...notesData];
     updatedNotes.splice(index, 1);
@@ -65,7 +75,7 @@ function App() {
       <ol class="list-group list-group-numbered mx-5 pb-5">
         <li class="list-group-item text-decoration-line-through">users can enter text to each note and</li>
         <li class="list-group-item text-decoration-line-through">save it in local storage, useMemo</li>
-        <li class="list-group-item">delete an existing note,</li>
+        <li class="list-group-item text-decoration-line-through">delete an existing note,</li>
         <li class="list-group-item">dynamically search among the notes and</li>
         <li class="list-group-item">add character limit.</li>
       </ol>
@@ -104,32 +114,48 @@ function App() {
           </div>
         </form>
 
-        {/* Map Data Array */}
-      <div class="mt-5 mx-5">
-        <ul class="list-group">
-        {notesData.map((note, index) => (
-          <li key={index} class="list-group-item">
-            <div class="d-flex justify-content-between">
-              {typeof note === 'string' ? (
-                <span>{note}</span>              
-              ) : (
-                <input
-                  type="text"
-                  defaultValue={note.value}
-                  onBlur={(event) => handleEditNote(index, event.target.value)}
-                  class="btn btn-light"
-                />
-              )}
-              <div class="d-flex">
-                <button type="button" onClick={() => handleEditNote(index, { value: note })} class="btn btn-primary mx-1 btn-sm align-self-center">Edit</button>
-                <button type="button" class="btn btn-success mx-1 btn-sm fw-bold align-self-center">✓</button>
-                <button type="button" onClick={() => handleDeleteNote(index)} class="btn btn-warning btn-sm align-self-center">🗑️</button>
-              </div>
-            </div>
-          </li>
-        ))}
-        </ul>
-      </div>
+         {/* Map Data Array */}
+        <div class="mt-5 mx-5">
+          <ul class="list-group">
+            {notesData.map((note, index) => (
+              <li key={index} class="list-group-item">
+                <div class="d-flex justify-content-between">
+                  {typeof note === 'string' ? (
+                    <>
+                      <span class="align-self-center">{note}</span>
+                      <div class="d-flex">
+                        <button type="button" onClick={() => handleEditNote(index, { value: note })} class="btn btn-secondary mx-1 btn-sm align-self-center">📝</button>
+                        <button type="button" onClick={() => handleDeleteNote(index)} class="btn btn-warning btn-sm align-self-center">🗑️</button>              
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <input
+                        type="text"
+                        defaultValue={note.value}
+                        onBlur={(event) => handleEditNote(index, event.target.value)}
+                        class="btn btn-light btn-sm"
+                        className="form-control"
+                      />
+                      <div class="d-flex">
+                        {note.isEditing ? (
+                          <>
+                            <button type="button" onClick={() => handleDoneEditNote(index)} class="btn btn-primary mx-1 btn-sm align-self-center">Edit</button>
+                          </>
+                        ) : (
+                          <>
+                            <button type="button" onClick={() => handleDoneEditNote(index)} class="btn btn-success mx-1 btn-sm fw-bold align-self-center">✓</button>
+                          </>
+                        )}
+                        <button type="button" onClick={() => handleDeleteNote(index)} class="btn btn-warning btn-sm align-self-center">🗑️</button>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
 
         {/* reset button  */}
       <div>
