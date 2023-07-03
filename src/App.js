@@ -60,11 +60,11 @@ function App() {
   return (
     <div className="App">
       <div className="py-3"></div>
-
+    
       <p class="fs-3 fw-semibold mx-5">A React Notes App</p>
       <ol class="list-group list-group-numbered mx-5 pb-5">
         <li class="list-group-item text-decoration-line-through">users can enter text to each note and</li>
-        <li class="list-group-item text-decoration-line-through">save it in local storage,</li>
+        <li class="list-group-item text-decoration-line-through">save it in local storage, useMemo</li>
         <li class="list-group-item">delete an existing note,</li>
         <li class="list-group-item">dynamically search among the notes and</li>
         <li class="list-group-item">add character limit.</li>
@@ -76,7 +76,7 @@ function App() {
       </div>
 
         {/* App Header */}
-      <div class="jumbotron jumbotron-fluid mx-4 mt-5">
+      <div class="jumbotron jumbotron-fluid mx-5 mt-5">
         <div class="container">
           <h1 class="display-4 fw-semibold">React Notes App</h1>
           <p class="lead">A local storage & dynamic note app using Bootstrap</p>
@@ -84,14 +84,14 @@ function App() {
       </div>
 
         {/* TEST-input for adding note */}
-        <form className="container mt-5 mx-5">
+        <form className="container mt-5 d-flex justify-content-center">
           <div className="row">
-            <label htmlFor="exampleFormControlTextarea1">New note input</label>
+            <label htmlFor="exampleFormControlTextarea1">New Note</label>
             <div className="col-6">
               <input
                 type="text"
                 className="form-control"
-                placeholder="Write here"
+                placeholder="Hmmmmm...."
                 value={newNote}
                 onChange={(event) => setNewNote(event.target.value)}
               />
@@ -105,21 +105,27 @@ function App() {
         </form>
 
         {/* Map Data Array */}
-      <div class="mt-5">
+      <div class="mt-5 mx-5">
         <ul class="list-group">
         {notesData.map((note, index) => (
-          <li key={index}>
-            {typeof note === 'string' ? (
-              <span>{note}</span>
-            ) : (
-              <input
-                type="text"
-                defaultValue={note.value}
-                onBlur={(event) => handleEditNote(index, event.target.value)}
-              />
-            )}
-            <button onClick={() => handleEditNote(index, { value: note })}>Edit</button>
-            <button onClick={() => handleDeleteNote(index)}>Delete</button>
+          <li key={index} class="list-group-item">
+            <div class="d-flex justify-content-between">
+              {typeof note === 'string' ? (
+                <span>{note}</span>              
+              ) : (
+                <input
+                  type="text"
+                  defaultValue={note.value}
+                  onBlur={(event) => handleEditNote(index, event.target.value)}
+                  class="btn btn-light"
+                />
+              )}
+              <div class="d-flex">
+                <button type="button" onClick={() => handleEditNote(index, { value: note })} class="btn btn-primary mx-1 btn-sm align-self-center">Edit</button>
+                <button type="button" class="btn btn-success mx-1 btn-sm fw-bold align-self-center">✓</button>
+                <button type="button" onClick={() => handleDeleteNote(index)} class="btn btn-warning btn-sm align-self-center">🗑️</button>
+              </div>
+            </div>
           </li>
         ))}
         </ul>
@@ -129,7 +135,7 @@ function App() {
       <div>
           {/* clear all button */}
         <button type="button" className="btn btn-danger mx-5 mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
-          Clear All - Modal
+          Clear All
         </button>
           {/* modal stuff */}
         <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
