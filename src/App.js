@@ -249,8 +249,8 @@ function App() {
 
         {/* just gaps - delete later */}
       <div class="py-5"><p>.</p></div>
-      <div class="py-5"><p>.</p></div>
-      <div class="py-5"><p>.</p></div>
+      {/* <div class="py-5"><p>.</p></div>
+      <div class="py-5"><p>.</p></div> */}
     
 
       <div></div>
