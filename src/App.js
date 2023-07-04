@@ -15,6 +15,7 @@ function App() {
   
   const [notesData, setNotesData] = useState(() => {
     const localStorageData = localStorage.getItem('notesData');
+    console.log(localStorageData, "localstorage @ notesData");
     return localStorageData ? JSON.parse(localStorageData) : [];
   });
 
@@ -67,6 +68,35 @@ function App() {
     setNotesData(updatedNotes);
   };
 
+  const [searchInput, setSearchInput] = useState("");
+  const [filteredResults, setFilteredResults] = useState([]);
+
+  // const searchInputHandler = (event) => {
+  //   const searchData = event.target.value;
+  //   setSearchInput(searchData);
+  //   // console.log(searchInput)
+  //   const filteredResults = notesData.filter((item)=>{
+  //     item.toLowerCase().includes(searchData.toLowerCase())
+  //   });
+  //   setFilteredResults(filteredResults);
+  //   console.log(filteredResults, "filteredResults");
+  // };
+
+  const searchInputHandler = (event) => {
+    const searchData = event.target.value;
+    setSearchInput(searchData);
+  
+    const filteredResults = notesData.filter((item) =>
+      item.toLowerCase().includes(searchData.toLowerCase())
+    );
+  
+    setFilteredResults(filteredResults);
+    console.log(filteredResults, "filteredResults");
+  };
+  
+
+
+
   return (
     <div className="App">
       <div className="py-3"></div>
@@ -118,7 +148,7 @@ function App() {
         {/* <div class="row d-flex justify-content-end mx-5 mt-5"> */}
         <div class="d-flex justify-content-end flex-row mx-5 mt-5">
           <div class="col-4 mx-2">
-            <input type="text" class="form-control form-control-sm" placeholder="Search"/>
+            <input type="text" value={searchInput} onChange={searchInputHandler} placeholder="Search" class="form-control form-control-sm"/>
           </div>
           <div class="col-auto">
             <button type="button" class="btn btn-info btn-sm">🔍</button>
@@ -126,6 +156,7 @@ function App() {
         </div>
 
          {/* Map Data Array */}
+        { searchInput === "" ? (
         <div class="mt-2 mx-5">
           <ul class="list-group">
             {notesData.map((note, index) => (
@@ -167,6 +198,19 @@ function App() {
             ))}
           </ul>
         </div>
+        ) : (
+        <div class="mt-2 mx-5">
+          <ul class="list-group">
+            {filteredResults.map((result, index) => (
+              <li key={index} class="list-group-item">
+                <div class="d-flex justify-content-between">
+                  {result}
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+        )}
 
         {/* reset button  */}
       <div>
