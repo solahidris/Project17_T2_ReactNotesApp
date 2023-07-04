@@ -97,7 +97,7 @@ function App() {
         <form className="container mt-5 d-flex justify-content-center">
           <div className="row">
             <label htmlFor="exampleFormControlTextarea1">New Note</label>
-            <div className="col-6">
+            <div className="col-8">
               <input
                 type="text"
                 className="form-control"
@@ -106,7 +106,7 @@ function App() {
                 onChange={(event) => setNewNote(event.target.value)}
               />
             </div>
-            <div className="col gx-0">
+            <div className="col-4 gx-0">
               <button type="submit" onClick={addNotesTestHandler} className="btn btn-primary">
                 Submit
               </button>
@@ -114,8 +114,19 @@ function App() {
           </div>
         </form>
 
+          {/* Dynamic Search Button */}
+        {/* <div class="row d-flex justify-content-end mx-5 mt-5"> */}
+        <div class="d-flex justify-content-end flex-row mx-5 mt-5">
+          <div class="col-4 mx-2">
+            <input type="text" class="form-control form-control-sm" placeholder="Search"/>
+          </div>
+          <div class="col-auto">
+            <button type="button" class="btn btn-info btn-sm">🔍</button>
+          </div>
+        </div>
+
          {/* Map Data Array */}
-        <div class="mt-5 mx-5">
+        <div class="mt-2 mx-5">
           <ul class="list-group">
             {notesData.map((note, index) => (
               <li key={index} class="list-group-item">
