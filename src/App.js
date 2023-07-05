@@ -207,9 +207,9 @@ function App() {
           <>
             <div class="mx-5">
               {/* <span class="px-2"></span> */}
-              <button type="button" class="btn btn-sm btn-primary position-relative">
+              <button type="button" class="btn btn-sm btn-outline-secondary position-relative">
                 Search Results
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill fw-medium text-bg-secondary">
                   {filteredResults.length > 0 ? filteredResults.length.toString() : "0"}
                   <span class="visually-hidden">unread messages</span>
                 </span>
