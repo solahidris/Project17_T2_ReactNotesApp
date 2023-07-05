@@ -71,17 +71,6 @@ function App() {
   const [searchInput, setSearchInput] = useState("");
   const [filteredResults, setFilteredResults] = useState([]);
 
-  // const searchInputHandler = (event) => {
-  //   const searchData = event.target.value;
-  //   setSearchInput(searchData);
-  //   // console.log(searchInput)
-  //   const filteredResults = notesData.filter((item)=>{
-  //     item.toLowerCase().includes(searchData.toLowerCase())
-  //   });
-  //   setFilteredResults(filteredResults);
-  //   console.log(filteredResults, "filteredResults");
-  // };
-
   const searchInputHandler = (event) => {
     const searchData = event.target.value;
     setSearchInput(searchData);
@@ -94,7 +83,10 @@ function App() {
     console.log(filteredResults, "filteredResults");
   };
   
-
+  const [openWorkflow, setOpenWorkflow] = useState(false);
+  const openWorkflowHandler = () => {
+    openWorkflow === false ? setOpenWorkflow(true) : setOpenWorkflow(false)
+  };
 
 
   return (
@@ -102,24 +94,32 @@ function App() {
       <div className="py-3"></div>
     
         {/* Workflow List */}
-      <div class="d-flex xl-align-items-center flex-column">
-        <p class="fs-1 fw-semibold mx-5 my-0" style={{ paddingLeft: '20px' }}>Workflow</p>
-        <ol class="list-group list-group-flush list-group-numbered mx-5 pb-5 col-xl-4 col-8" style={{ fontSize: '10px', padding: '5px' }}>
-          <li class="list-group-item">users can enter text to each note and</li>
-          <li class="list-group-item">save it in local storage, useMemo</li>
-          <li class="list-group-item">delete an existing note,</li>
-          <li class="list-group-item">dynamically search among the notes and</li>
-          <li class="list-group-item">add character limit.</li>
-        </ol>
+      <div class="mx-5 mb-2">
+        <button onClick={openWorkflowHandler} class="btn btn-primary btn-sm ">{openWorkflow === false ? "Show Workflow" : "Hide Workflow"}
+</button>
       </div>
-
-        {/* Placeholder Line */}
-      <p class="placeholder-glow d-flex justify-content-center">
-        <span class="placeholder placeholder-xs col-11 bg-secondary"></span>
-      </p>
+      { openWorkflow === true ? (
+        <>
+        <div class="d-flex xl-align-items-center flex-column">
+          <p class="fs-1 fw-semibold mx-5 my-0" style={{ paddingLeft: '20px' }}>Workflow</p>
+          <ol class="list-group list-group-flush list-group-numbered mx-5 pb-5 col-xl-4 col-8" style={{ fontSize: '10px', padding: '5px' }}>
+            <li class="list-group-item">users can enter text to each note and</li>
+            <li class="list-group-item">save it in local storage, useMemo</li>
+            <li class="list-group-item">delete an existing note,</li>
+            <li class="list-group-item">dynamically search among the notes and</li>
+            <li class="list-group-item">add character limit.</li>
+          </ol>
+        </div>
+          {/* Placeholder Line */}
+        <p class="placeholder-glow d-flex justify-content-center">
+          <span class="placeholder placeholder-xs col-11 bg-secondary"></span>
+        </p>
+        </>)
+      : (<></>)
+      }
 
         {/* App Header */}
-      <div class="jumbotron jumbotron-fluid mx-5 mt-5">
+      <div class="jumbotron jumbotron-fluid mx-5 mt-3">
         <div class="container">
           <h1 class="display-4 fw-semibold">React Notes App</h1>
           <p class="lead">A local storage & dynamic note app using Bootstrap</p>
