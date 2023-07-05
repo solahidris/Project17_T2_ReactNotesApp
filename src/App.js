@@ -95,10 +95,9 @@ function App() {
     
         {/* Workflow List */}
       <div class="mx-5 mb-2">
-        <button onClick={openWorkflowHandler} class="btn btn-primary btn-sm ">{openWorkflow === false ? "Show Workflow" : "Hide Workflow"}
-</button>
+        <button onClick={openWorkflowHandler} class="btn btn-primary btn-sm ">{openWorkflow === false ? "Show Workflow" : "Hide Workflow"}</button>
       </div>
-      { openWorkflow === true ? (
+      { openWorkflow === true ? ( // If button is not clicked, initial state false
         <>
         <div class="d-flex xl-align-items-center flex-column">
           <p class="fs-1 fw-semibold mx-5 my-0" style={{ paddingLeft: '20px' }}>Workflow</p>
@@ -115,14 +114,14 @@ function App() {
           <span class="placeholder placeholder-xs col-11 bg-secondary"></span>
         </p>
         </>)
-      : (<></>)
+      : (<></>) // if in shown and want to hide, render fragment
       }
 
         {/* App Header */}
       <div class="jumbotron jumbotron-fluid mx-5 mt-3">
         <div class="container">
           <h1 class="display-4 fw-semibold">React Notes App</h1>
-          <p class="lead">A local storage & dynamic note app using Bootstrap</p>
+          <span class="lead fw-lighter fs-6">A local storage & dynamic note app using Bootstrap</span>
         </div>
       </div>
 
@@ -165,9 +164,10 @@ function App() {
                     {typeof note === 'string' ? (
                       <>
                         <div class="d-flex flex-row">
-                          <div class="spinner-border spinner-border-sm align-self-center text-secondary" role="status">
+                          {/* <div class="spinner-border spinner-border-sm align-self-center text-secondary" role="status">
                             <span class="visually-hidden">Loading...</span>
-                          </div>
+                          </div>*/}
+                          <span class="badge fw-semibold text-bg-primary align-self-center">{index+1}</span>
                           <span class="align-self-center mx-3 flex-grow">{note}</span>
                         </div>
                         <div class="d-flex">
@@ -204,17 +204,37 @@ function App() {
             </ul>
           </div>
           ) : ( // If Search if not empty, show the filter results
-          <div class="mt-2 mx-5">
-            <ul class="list-group">
-              {filteredResults.map((result, index) => (
-                <li key={index} class="list-group-item">
-                  <div class="d-flex justify-content-between">
-                    {result}
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <>
+            <div class="mx-5">
+              {/* <span class="px-2"></span> */}
+              <button type="button" class="btn btn-sm btn-primary position-relative">
+                Search Results
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                  {filteredResults.length > 0 ? filteredResults.length.toString() : "0"}
+                  <span class="visually-hidden">unread messages</span>
+                </span>
+              </button>
+            </div>
+            <div class="mt-2 mx-5">
+              <ul class="list-group">
+                {filteredResults.length > 0 ? (
+                  filteredResults.map((result, index) => (
+                    <li key={index} class="list-group-item">
+                      <div class="d-flex justify-content-between">
+                        {result}
+                      </div>
+                    </li>
+                  ))
+                ) : (
+                  <li class="list-group-item">
+                    <div class="d-flex justify-content-between">
+                      <span class="btn btn-warning">Nothing Found ⚠️</span>
+                    </div>
+                  </li>
+                )}
+              </ul>
+            </div>
+          </>
         )}
 
         {/* reset button  */}
