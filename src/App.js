@@ -125,17 +125,19 @@ function App() {
       }
 
         {/* App Header */}
-      <div class="jumbotron jumbotron-fluid mx-5 mt-3">
-        <div class="container">
-          <h1 class="display-4 fw-semibold">React Notes App</h1>
-          <span class="lead fw-lighter fs-6">A local storage & dynamic note app using Bootstrap</span>
+      <div class="d-flex justify-content-center">
+        <div class="jumbotron jumbotron-fluid mx-5 mt-3">
+          <div class="container">
+            <h1 class="display-4 fw-semibold">React Notes App</h1>
+            <span class="lead fw-lighter fs-6">A local storage & dynamic note app using Bootstrap</span>
+          </div>
         </div>
       </div>
 
           {/* New Note Submit */}
         <div class="py-4">
-          <div class="d-flex justify-content-center">
-            <div class="form-floating col-6 col-xl-4">
+          <div class="d-flex justify-content-center mt-xl-4">
+            <div class="form-floating col-6 col-xl-3">
                   <input class="form-control" type="text" id="newNoteLabel" value={newNote} placeholder="newNoteLabel" 
                   maxLength={30} onChange={(event) => setNewNote(event.target.value)} 
                   // onKeyDown - to enable press enter key to add note
@@ -155,32 +157,33 @@ function App() {
         </div>
 
           {/* Dynamic Search Button */}
-        {/* <div class="row d-flex justify-content-end mx-5 mt-5"> */}
-        <div class="d-flex justify-content-end flex-row mx-5 mt-3">
-            {/* X button to clear search Input */}
-          {searchInput !== "" ? <button type="button" onClick={clearSearchHandler} class="btn-close align-self-center btn btn-sm" aria-label="Close"></button> : <></>}
-            {/* Search Filter + Icon */}
-          <div class="col-4 mx-1">
-            <input type="text" value={searchInput} onChange={searchInputHandler} placeholder="Search" class="form-control form-control-sm"/>
+        {notesData.length === 0 ? (
+          <></>) : (
+          <div class="d-flex justify-content-end flex-row mt-3 mx-5 mx-xl-0">
+              {/* X button to clear search Input */}
+            {searchInput !== "" ? <button type="button" onClick={clearSearchHandler} class="btn-close align-self-center btn btn-sm" aria-label="Close"></button> : <></>}
+              {/* Search Filter + Icon */}
+            <div class="col-4 col-xl-2 mx-1">
+              <input type="text" value={searchInput} onChange={searchInputHandler} placeholder="Search" class="form-control form-control-sm"/>
+            </div>
+            <div class="col-auto ms-1 me-xl-4">
+              <button type="button" class="btn btn-info btn-sm">🔍</button>
+            </div>
+            <div class="col-xl-3"></div>
           </div>
-          <div class="col-auto mx-1">
-            <button type="button" class="btn btn-info btn-sm">🔍</button>
-          </div>
-        </div>
+        )}
+        
 
          {/* Map Data Array */}
         { searchInput === "" ? ( // If not searching, show notes from database
-          <div class="mt-2 mx-5">
-            <ul class="list-group">
+          <div class="mt-3 mx-5 d-flex justify-content-center">
+            <ul class="list-group col-xl-6 col-12">
               {notesData.map((note, index) => (
                 <li key={index} class="list-group-item">
                   <div class="d-flex justify-content-between">
                     {typeof note === 'string' ? (
                       <>
                         <div class="d-flex flex-row">
-                          {/* <div class="spinner-border spinner-border-sm align-self-center text-secondary" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                          </div>*/}
                           <span class="badge fw-semibold text-bg-primary align-self-center">{index+1}</span>
                           <span class="align-self-center mx-3 flex-grow">{note}</span>
                         </div>
@@ -189,7 +192,7 @@ function App() {
                           <button type="button" onClick={() => handleDeleteNote(index)} class="btn btn-warning btn-sm align-self-center">🗑️</button>              
                         </div>
                       </>
-                    ) : (
+                    ) : ( // if editing, show as edit input
                       <>
                         <input
                           type="text"
@@ -217,20 +220,21 @@ function App() {
               ))}
             </ul>
           </div>
-          ) : ( // If Search if not empty, show the filter results
+          ) : ( // If searching, show the filter results
           <>
-            <div class="mx-5">
+            <div class="d-flex justify-content-start">
               {/* <span class="px-2"></span> */}
-              <button type="button" class="btn btn-sm btn-outline-secondary position-relative">
-                Search Results
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill fw-medium text-bg-secondary">
+              <div class="col-xl-3 me-4"></div>
+              <button type="button" class="btn btn-sm btn-success position-relative col-auto ms-xl-1 ms-4">
+                Results
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill fw-medium text-bg-warning">
                   {filteredResults.length > 0 ? filteredResults.length.toString() : "0"}
                   <span class="visually-hidden">unread messages</span>
                 </span>
               </button>
             </div>
-            <div class="mt-2 mx-5">
-              <ul class="list-group">
+            <div class="mt-2 mx-5 d-flex justify-content-center">
+              <ul class="list-group col-xl-6 col-12">
                 {filteredResults.length > 0 ? (
                   filteredResults.map((result, index) => (
                     <li key={index} class="list-group-item">
@@ -252,14 +256,13 @@ function App() {
         )}
 
         {/* reset button  */}
-      <div>
+      <div class="d-flex justify-content-start">
+        <div class="col-xl-3"></div>
           {/* clear all button */}
-        <button type="button" className="btn btn-danger mx-5 mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
-          Clear All
-        </button>
+        {filteredResults.length > 0 || notesData.length > 0 ? (<button type="button" className="col-auto btn btn-danger mx-5 mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal">Clear All</button>) : (<></>)}
           {/* modal stuff */}
         <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div className="modal-dialog modal-dialog-centered mx-5" role="document">
+          <div className="modal-dialog modal-dialog-centered" role="document">
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel">Clearing All Notes</h5>
