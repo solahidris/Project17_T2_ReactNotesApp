@@ -27,7 +27,10 @@ function App() {
   }, []);
 
   const addNotesTestHandler = (event) => {
-    event.preventDefault();
+    if (event) {
+      event.preventDefault();
+    }
+    // event.preventDefault();
     if (newNote !== "") {
       setNotesTestWithLocalStorage([...notesData, newNote]);
       setNewNote(""); // Reset the input field after adding a note
@@ -95,7 +98,7 @@ function App() {
     
         {/* Workflow List */}
       <div class="mx-5 mb-2">
-        <button onClick={openWorkflowHandler} class="btn btn-primary btn-sm ">{openWorkflow === false ? "Show Workflow" : "Hide Workflow"}</button>
+        <button onClick={openWorkflowHandler} class="btn btn-success btn-sm ">{openWorkflow === false ? "Show Workflow" : "Hide Workflow"}</button>
       </div>
       { openWorkflow === true ? ( // If button is not clicked, initial state false
         <>
@@ -129,7 +132,15 @@ function App() {
         <div class="py-4">
           <div class="d-flex justify-content-center">
             <div class="form-floating col-6 col-xl-4">
-                  <input class="form-control" type="text" id="newNoteLabel" value={newNote} placeholder="newNoteLabel" maxLength={30}  onChange={(event) => setNewNote(event.target.value)}/>
+                  <input class="form-control" type="text" id="newNoteLabel" value={newNote} placeholder="newNoteLabel" 
+                  maxLength={30} onChange={(event) => setNewNote(event.target.value)} 
+                  onKeyDown={(event) => {
+                    if (event.keyCode === 13) {
+                      event.preventDefault();
+                      addNotesTestHandler();
+                    }
+                  }}
+                  />
                   <label for="newNoteLabel">New Note</label>
             </div>
             <div class="d-flex align-items-end">
@@ -171,7 +182,7 @@ function App() {
                           <span class="align-self-center mx-3 flex-grow">{note}</span>
                         </div>
                         <div class="d-flex">
-                          <button type="button" onClick={() => handleEditNote(index, { value: note })} class="btn btn-secondary mx-1 btn-sm align-self-center">📝</button>
+                          <button type="button" onClick={() => handleEditNote(index, { value: note })} class="btn btn-light mx-1 btn-sm align-self-center">📝</button>
                           <button type="button" onClick={() => handleDeleteNote(index)} class="btn btn-warning btn-sm align-self-center">🗑️</button>              
                         </div>
                       </>
