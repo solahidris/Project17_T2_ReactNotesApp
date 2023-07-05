@@ -85,6 +85,10 @@ function App() {
     setFilteredResults(filteredResults);
     console.log(filteredResults, "filteredResults");
   };
+
+  const clearSearchHandler = () => {
+    setSearchInput("");
+  }
   
   const [openWorkflow, setOpenWorkflow] = useState(false);
   const openWorkflowHandler = () => {
@@ -134,12 +138,8 @@ function App() {
             <div class="form-floating col-6 col-xl-4">
                   <input class="form-control" type="text" id="newNoteLabel" value={newNote} placeholder="newNoteLabel" 
                   maxLength={30} onChange={(event) => setNewNote(event.target.value)} 
-                  onKeyDown={(event) => {
-                    if (event.keyCode === 13) {
-                      event.preventDefault();
-                      addNotesTestHandler();
-                    }
-                  }}
+                  // onKeyDown - to enable press enter key to add note
+                  onKeyDown={(event) => { if (event.keyCode === 13) {event.preventDefault(); addNotesTestHandler();}}}
                   />
                   <label for="newNoteLabel">New Note</label>
             </div>
@@ -157,10 +157,13 @@ function App() {
           {/* Dynamic Search Button */}
         {/* <div class="row d-flex justify-content-end mx-5 mt-5"> */}
         <div class="d-flex justify-content-end flex-row mx-5 mt-3">
-          <div class="col-4 mx-2">
+            {/* X button to clear search Input */}
+          {searchInput !== "" ? <button type="button" onClick={clearSearchHandler} class="btn-close align-self-center btn btn-sm" aria-label="Close"></button> : <></>}
+            {/* Search Filter + Icon */}
+          <div class="col-4 mx-1">
             <input type="text" value={searchInput} onChange={searchInputHandler} placeholder="Search" class="form-control form-control-sm"/>
           </div>
-          <div class="col-auto">
+          <div class="col-auto mx-1">
             <button type="button" class="btn btn-info btn-sm">🔍</button>
           </div>
         </div>
