@@ -90,9 +90,9 @@ function App() {
     setSearchInput("");
   }
   
-  const [openWorkflow, setOpenWorkflow] = useState(false);
-  const openWorkflowHandler = () => {
-    openWorkflow === false ? setOpenWorkflow(true) : setOpenWorkflow(false)
+  const [openFeatures, setOpenFeatures] = useState(false);
+  const openFeaturesHandler = () => {
+    openFeatures === false ? setOpenFeatures(true) : setOpenFeatures(false)
   };
 
 
@@ -100,20 +100,22 @@ function App() {
     <div className="App">
       <div className="py-3"></div>
     
-        {/* Workflow List */}
+        {/* Features List */}
       <div class="mx-5 mb-2">
-        <button onClick={openWorkflowHandler} class="btn btn-success btn-sm ">{openWorkflow === false ? "Show Workflow" : "Hide Workflow"}</button>
+        <button onClick={openFeaturesHandler} class="btn btn-success btn-sm ">{openFeatures === false ? "Show Features" : "Hide Features"}</button>
       </div>
-      { openWorkflow === true ? ( // If button is not clicked, initial state false
+      { openFeatures === true ? ( // If button is not clicked, initial state false
         <>
         <div class="d-flex xl-align-items-center flex-column">
-          <p class="fs-1 fw-semibold mx-5 my-0" style={{ paddingLeft: '20px' }}>Workflow</p>
+          <p class="fs-1 fw-semibold mx-5 my-0" style={{ paddingLeft: '20px' }}>Features / Tasks</p>
           <ol class="list-group list-group-flush list-group-numbered mx-5 pb-5 col-xl-4 col-8" style={{ fontSize: '10px', padding: '5px' }}>
-            <li class="list-group-item">users can enter text to each note and</li>
-            <li class="list-group-item">save it in local storage, useMemo</li>
-            <li class="list-group-item">delete an existing note,</li>
-            <li class="list-group-item">dynamically search among the notes and</li>
-            <li class="list-group-item">add character limit.</li>
+            <li class="list-group-item">users can enter text to each note and ✏️</li>
+            <li class="list-group-item">save it in local storage, useMemo 💾</li>
+            <li class="list-group-item">delete an existing note, ❌</li>
+            <li class="list-group-item">edit an existing note, 📝</li>
+            <li class="list-group-item">clear all notes with a warning modal 🗑️☠️</li>
+            <li class="list-group-item">dynamically search among the notes and 🔍</li>
+            <li class="list-group-item">add character limit. 🚫</li>
           </ol>
         </div>
           {/* Placeholder Line */}
@@ -128,8 +130,8 @@ function App() {
       <div class="d-flex justify-content-center">
         <div class="jumbotron jumbotron-fluid mx-5 mt-3">
           <div class="container">
-            <h1 class="display-4 fw-semibold">React Notes App</h1>
-            <span class="lead fw-lighter fs-6">A local storage & dynamic note app using Bootstrap</span>
+            <h1 class="display-4 fw-semibold">Notes App v2.0</h1>
+            <span class="lead fw-lighter fs-6">A local storage via Bootstrap</span>
           </div>
         </div>
       </div>
@@ -167,7 +169,7 @@ function App() {
               <input type="text" value={searchInput} onChange={searchInputHandler} placeholder="Search" class="form-control form-control-sm"/>
             </div>
             <div class="col-auto ms-1 me-xl-4">
-              <button type="button" class="btn btn-info btn-sm">🔍</button>
+              <button type="button" class="btn btn-info btn-sm me-1">🔍</button>
             </div>
             <div class="col-xl-3"></div>
           </div>
@@ -259,7 +261,7 @@ function App() {
       <div class="d-flex justify-content-start">
         <div class="col-xl-3"></div>
           {/* clear all button */}
-        {filteredResults.length > 0 || notesData.length > 0 ? (<button type="button" className="col-auto btn btn-danger mx-5 mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal">Clear All</button>) : (<></>)}
+        {filteredResults.length > 0 || notesData.length > 0 ? (<button type="button" className="col-auto btn btn-danger mx-xl-4 mx-5 mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal">Clear All</button>) : (<></>)}
           {/* modal stuff */}
         <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div className="modal-dialog modal-dialog-centered" role="document">
