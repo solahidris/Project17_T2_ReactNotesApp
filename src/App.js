@@ -9,6 +9,8 @@ import { useEffect, useState, useMemo } from 'react';
 
 import $ from 'jquery';
 
+// WE ARE ON << NEXTJS-EXPERIMENT >> BRANCH
+const deleteLater = "deleteThisLater";
 
 function App() {
   const [newNote, setNewNote] = useState("");
