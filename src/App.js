@@ -51,6 +51,14 @@ function App() {
   // SUPABASE stuff
   const [countries, setCountries] = useState([]);
 
+  async function getCountries() {
+    const { data } = await supabase.from("countries").select();
+    setCountries(data);
+    console.log(data, "countries' data")
+  }
+
+  const { user } = useAuth0();
+
   /// USE EFFECT
   /// USE EFFECT
   /// USE EFFECT
@@ -61,19 +69,15 @@ function App() {
       $('#myInput').trigger('focus');
     });
     localStorage.setItem('notesData', JSON.stringify(notesData));
-    // handleAuthentication();
     // Supabase
     getCountries();
+    // eslint-disable-next-line
   }, [notesData]);
   
   /// USE EFFECT
   /// USE EFFECT
   /// USE EFFECT
 
-  async function getCountries() {
-    const { data } = await supabase.from("countries").select();
-    setCountries(data);
-  }
 
   // another SUPABASE stuff
   const clearAllHandler = () => {
@@ -149,13 +153,34 @@ function App() {
     {/* Supabase stuff */}
     {/* https://supabase.com/docs/guides/getting-started/quickstarts/reactjs */}
     {/* https://supabase.com/dashboard/project/pkipjwyckosuzkodgxks/editor/28543 */}
+    {/* <ul>
+        {countries.map((country) => (
+          <li key={country.name}>{country.name} + {country.sub} - {country.id}</li>
+        ))}
+    </ul> */}
+
+    {/* Filter map by SUB */}
     <div>
-      <ul>
-          {countries.map((country) => (
-            <li key={country.name}>{country.name}</li>
-          ))}
-      </ul>
+      {countries.map((item) =>
+        item.sub === user?.sub && (
+          <div key={item.id}>
+            <h2>this is the new code</h2>
+            <p>ID: {item.id}</p>
+            <p>Name: {item.name}</p>
+            <p>Sub: {item.sub}</p>
+          </div>
+        )
+      )}
     </div>
+
+    {/* {isAuthenticated && (
+        <h2>{user?.sub}</h2>
+    )} */}
+
+    {/* <h1>{user?.sub}</h1> */}
+
+
+
 
       <div className="py-3"></div>
     
@@ -238,6 +263,47 @@ function App() {
          {/* Map Data Array */}
         { searchInput === "" ? ( // If not searching, show notes from database
           <div class="mt-3 mx-5 d-flex justify-content-center">
+
+            {/* <ul class="list-group col-xl-6 col-12">
+              {countries.map((item)=>(
+                <li key={item.id} class="list-group-item">
+                  <div class="d-flex flex-row">
+                    <span class="badge fw-semibold text-bg-primary align-self-center">{item.id}</span>
+                    <span class="align-self-center mx-3 flex-grow">{item.name}</span>
+                  </div>
+                </li>
+              ))}
+            </ul> */}
+
+            <ul class="list-group col-xl-6 col-12">
+              {countries
+                .sort((a, b) => a.id - b.id) // Sort the array based on the 'id' property
+                .filter((item) => item.sub === user?.sub)
+                .map((item, index) => (
+                  <li key={item.id} class="list-group-item">
+                    <div class="d-flex flex-row">
+                      <span class="badge fw-semibold text-bg-primary align-self-center">{index + 1}</span>
+                      <span class="align-self-center mx-3 flex-grow">{item.name}</span>
+                    </div>
+                  </li>
+                ))}
+            </ul>
+
+
+            {/* <div>
+              {countries.map((item) =>
+                item.sub === user?.sub && (
+                  <div key={item.id}>
+                    <h2>this is the new code</h2>
+                    <p>ID: {item.id}</p>
+                    <p>Name: {item.name}</p>
+                    <p>Sub: {item.sub}</p>
+                  </div>
+                )
+              )}
+            </div> */}
+
+
             <ul class="list-group col-xl-6 col-12">
               {notesData.map((note, index) => (
                 <li key={index} class="list-group-item">

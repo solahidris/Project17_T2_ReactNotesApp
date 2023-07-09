@@ -9,6 +9,7 @@ const Profile = () => {
         {JSON.stringify(user)}
         {user?.picture && <img src={user.picture} alt={user?.name} />}
         <h2>{user?.name}</h2>
+        <h2>{user?.sub}</h2>
         <ul>
           {Object.keys(user).map((objKey, index) => (
             <li key={index}>
@@ -16,6 +17,7 @@ const Profile = () => {
             </li>
           ))}
         </ul>
+        <h2>this is the last line from PROFILE.JS</h2>
       </article>
     )
   );
