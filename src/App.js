@@ -6,12 +6,22 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 import React from 'react';
 import { useEffect, useState, useMemo } from 'react';
-
 import $ from 'jquery';
+
+import LoginButton from "./components/LoginButton";
+import LogoutButton from "./components/LogoutButton";
+import Profile from "./components/Profile";
+import { useAuth0 } from "@auth0/auth0-react";
+
+import { createClient } from '@supabase/supabase-js';
 
 // WE ARE ON << NEXTJS-EXPERIMENT >> BRANCH
 
 function App() {
+
+  // Supabase configuration
+  const supabase = createClient('https://pkipjwyckosuzkodgxks.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBraXBqd3lja29zdXprb2RneGtzIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODg4OTA5ODgsImV4cCI6MjAwNDQ2Njk4OH0.kb3cMjrGDVETChU0Ij2KHZ45uOCckIrapejAP4CTPZY');
+
   const [newNote, setNewNote] = useState("");
   
   const [notesData, setNotesData] = useState(() => {
@@ -38,14 +48,34 @@ function App() {
     }
   };
 
+  // SUPABASE stuff
+  const [countries, setCountries] = useState([]);
+
+  /// USE EFFECT
+  /// USE EFFECT
+  /// USE EFFECT
+  
   useEffect(() => {
     // Modal Clear All Button
     $('#exampleModal').on('shown.bs.modal', function () {
       $('#myInput').trigger('focus');
     });
     localStorage.setItem('notesData', JSON.stringify(notesData));
+    // handleAuthentication();
+    // Supabase
+    getCountries();
   }, [notesData]);
+  
+  /// USE EFFECT
+  /// USE EFFECT
+  /// USE EFFECT
 
+  async function getCountries() {
+    const { data } = await supabase.from("countries").select();
+    setCountries(data);
+  }
+
+  // another SUPABASE stuff
   const clearAllHandler = () => {
     setNotesTestWithLocalStorage([]);
   };
@@ -96,9 +126,37 @@ function App() {
     openFeatures === false ? setOpenFeatures(true) : setOpenFeatures(false)
   };
 
+  // Auth0 Load & Error State
+  const { isLoading, error } = useAuth0();
 
   return (
     <div className="App">
+
+      {/* Auth0 Div */}
+    <div>
+      <h1>Auth0 Login</h1>
+      {error && <p>Authentication Error</p>}
+      {!error && isLoading && <p>Loading...</p>}
+      {!error && !isLoading && (
+        <>
+          <LoginButton />
+          <LogoutButton />
+          <Profile />
+        </>
+      )}
+    </div>
+
+    {/* Supabase stuff */}
+    {/* https://supabase.com/docs/guides/getting-started/quickstarts/reactjs */}
+    {/* https://supabase.com/dashboard/project/pkipjwyckosuzkodgxks/editor/28543 */}
+    <div>
+      <ul>
+          {countries.map((country) => (
+            <li key={country.name}>{country.name}</li>
+          ))}
+      </ul>
+    </div>
+
       <div className="py-3"></div>
     
         {/* Features List */}
