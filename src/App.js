@@ -107,6 +107,14 @@ function App() {
     const updatedNotes = [...notesData];
     updatedNotes[index] = newValue;
     setNotesData(updatedNotes);
+      // Update the note in the Supabase database
+  handleEditSupabaseNote(index, newValue);
+  };
+  const handleEditSupabaseNote = async (index, newValue) => {
+    const { error } = await supabase
+    .from('countries')
+    .update({ name: newValue })
+    .eq('id', index)
   };
 
   const handleDoneEditNote = (index) => {
@@ -120,6 +128,11 @@ function App() {
   };
 
   const handleDeleteNote = (index) => {
+    const updatedNotes = [...notesData];
+    updatedNotes.splice(index, 1);
+    setNotesData(updatedNotes);
+  };
+  const handleDeleteSupabaseNote = (index) => {
     const updatedNotes = [...notesData];
     updatedNotes.splice(index, 1);
     setNotesData(updatedNotes);
@@ -334,8 +347,8 @@ function App() {
                           <span class="align-self-center mx-3 flex-grow">{item.name}</span>
                         </div>
                         <div class="d-flex">
-                          <button type="button" onClick={() => handleEditNote(index, { value: item.name })} class="btn btn-light mx-1 btn-sm align-self-center">📝</button>
-                          <button type="button" onClick={() => handleDeleteNote(index)} class="btn btn-warning btn-sm align-self-center">🗑️</button>              
+                          <button type="button" onClick={() => handleEditSupabaseNote(index, { value: item.name })} class="btn btn-light mx-1 btn-sm align-self-center">📝</button>
+                          <button type="button" onClick={() => handleDeleteSupabaseNote(index)} class="btn btn-warning btn-sm align-self-center">🗑️</button>              
                         </div>
                       </>
                     ) : ( // if editing, show as edit input
