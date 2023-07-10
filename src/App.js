@@ -47,15 +47,34 @@ function App() {
       setNewNote(""); // Reset the input field after adding a note
     }
   };
+  const addNotesToDatabase = async (event) => {
+    if (event) {
+      event.preventDefault();
+    }
+
+    const { data } = await supabase
+    .from('countries')
+    .insert([
+      { name: newNote, sub: user.sub },
+    ])
+    .select();
+    //
+    if (newNote !== "") {
+      setNotesTestWithLocalStorage([...notesData, newNote]);
+      setNewNote(""); // Reset the input field after adding a note
+    }
+  };
 
   // SUPABASE stuff
-  const [countries, setCountries] = useState([]);
+  const [supabaseData, setSupabaseData] = useState([]);
 
-  async function getCountries() {
+  const getCountries = async () => {
+      // Read Database
     const { data } = await supabase.from("countries").select();
-    setCountries(data);
-    console.log(data, "countries' data")
-  }
+    setSupabaseData(data);
+    console.log(data, "supabaseData' data");
+  };
+  
 
   const { user } = useAuth0();
 
@@ -154,14 +173,14 @@ function App() {
     {/* https://supabase.com/docs/guides/getting-started/quickstarts/reactjs */}
     {/* https://supabase.com/dashboard/project/pkipjwyckosuzkodgxks/editor/28543 */}
     {/* <ul>
-        {countries.map((country) => (
+        {supabaseData.map((country) => (
           <li key={country.name}>{country.name} + {country.sub} - {country.id}</li>
         ))}
     </ul> */}
 
     {/* Filter map by SUB */}
     <div>
-      {countries.map((item) =>
+      {supabaseData.map((item) =>
         item.sub === user?.sub && (
           <div key={item.id}>
             <h2>this is the new code</h2>
@@ -220,6 +239,28 @@ function App() {
         </div>
       </div>
 
+          {/* New Note Submit - NEW */}
+        <div class="py-4">
+          <div class="d-flex justify-content-center mt-xl-4">
+            <div class="form-floating col-6 col-xl-3">
+                  <input class="form-control" type="text" id="newNoteLabel" value={newNote} placeholder="newNoteLabel" 
+                  maxLength={30} onChange={(event) => setNewNote(event.target.value)} 
+                  // onKeyDown - to enable press enter key to add note
+                  onKeyDown={(event) => { if (event.keyCode === 13) {event.preventDefault(); addNotesToDatabase();}}}
+                  />
+                  <label for="newNoteLabel">New Note - Supabase</label>
+            </div>
+            <div class="d-flex align-items-end">
+              <button type="submit" onClick={addNotesToDatabase} className="btn btn-primary btn-sm mx-2">Submit</button>
+            </div>
+          </div>
+            {/* If character > 30 ? show warning */}
+          {newNote.length !== 30 ? (<></>) : (
+          <div class="d-flex justify-content-center mx-4 mx-xl-5">
+            <small className="col-8 col-xl-5 mt-1 text-danger fw-bold">⚠️ Character Limit!</small>
+          </div>)}
+        </div>
+
           {/* New Note Submit */}
         <div class="py-4">
           <div class="d-flex justify-content-center mt-xl-4">
@@ -229,7 +270,7 @@ function App() {
                   // onKeyDown - to enable press enter key to add note
                   onKeyDown={(event) => { if (event.keyCode === 13) {event.preventDefault(); addNotesTestHandler();}}}
                   />
-                  <label for="newNoteLabel">New Note</label>
+                  <label for="newNoteLabel">New Note - Local Storage</label>
             </div>
             <div class="d-flex align-items-end">
               <button type="submit" onClick={addNotesTestHandler} className="btn btn-primary btn-sm mx-2">Submit</button>
@@ -258,25 +299,11 @@ function App() {
             <div class="col-xl-3"></div>
           </div>
         )}
-        
 
-         {/* Map Data Array */}
-        { searchInput === "" ? ( // If not searching, show notes from database
-          <div class="mt-3 mx-5 d-flex justify-content-center">
-
-            {/* <ul class="list-group col-xl-6 col-12">
-              {countries.map((item)=>(
-                <li key={item.id} class="list-group-item">
-                  <div class="d-flex flex-row">
-                    <span class="badge fw-semibold text-bg-primary align-self-center">{item.id}</span>
-                    <span class="align-self-center mx-3 flex-grow">{item.name}</span>
-                  </div>
-                </li>
-              ))}
-            </ul> */}
-
+        {/* Map Data Array - New */}
+        <div class="mt-3 mx-5 d-flex justify-content-center">
             <ul class="list-group col-xl-6 col-12">
-              {countries
+              {supabaseData
                 .sort((a, b) => a.id - b.id) // Sort the array based on the 'id' property
                 .filter((item) => item.sub === user?.sub)
                 .map((item, index) => (
@@ -288,10 +315,27 @@ function App() {
                   </li>
                 ))}
             </ul>
+          </div>
+        
 
+         {/* Map Data Array */}
+        { searchInput === "" ? ( // If not searching, show notes from database
+          <div class="mt-3 mx-5 d-flex justify-content-center">
+
+            {/* <ul class="list-group col-xl-6 col-12">
+              {supabaseData.map((item)=>(
+                <li key={item.id} class="list-group-item">
+                  <div class="d-flex flex-row">
+                    <span class="badge fw-semibold text-bg-primary align-self-center">{item.id}</span>
+                    <span class="align-self-center mx-3 flex-grow">{item.name}</span>
+                  </div>
+                </li>
+              ))}
+            </ul> */}
+          
 
             {/* <div>
-              {countries.map((item) =>
+              {supabaseData.map((item) =>
                 item.sub === user?.sub && (
                   <div key={item.id}>
                     <h2>this is the new code</h2>
