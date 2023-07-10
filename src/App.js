@@ -300,13 +300,13 @@ function App() {
           </div>
         )}
 
-        {/* Map Data Array - New */}
+        {/* Map Data Array - New Supabase
         <div class="mt-3 mx-5 d-flex justify-content-center">
             <ul class="list-group col-xl-6 col-12">
               {supabaseData
                 .sort((a, b) => a.id - b.id) // Sort the array based on the 'id' property
-                .filter((item) => item.sub === user?.sub)
-                .map((item, index) => (
+                .filter((item) => item.sub === user?.sub) // Show only ID specific based on Auth0
+                .map((item, index) => ( // Map all user notes
                   <li key={item.id} class="list-group-item">
                     <div class="d-flex flex-row">
                       <span class="badge fw-semibold text-bg-primary align-self-center">{index + 1}</span>
@@ -315,39 +315,97 @@ function App() {
                   </li>
                 ))}
             </ul>
-          </div>
+          </div> */}
+
+        {/* Map Data Array - New Supabase */}
+        { searchInput === "" ? ( // If not searching, show notes from database
+        <div class="mt-3 mx-5 d-flex justify-content-center">
+            <ul class="list-group col-xl-6 col-12">
+              {supabaseData
+                .sort((a, b) => a.id - b.id) // Sort the array based on the 'id' property
+                .filter((item) => item.sub === user?.sub) // Show only ID specific based on Auth0
+                .map((item, index) => ( // Map all user notes
+                  <li key={item.id} class="list-group-item">
+                    <div class="d-flex justify-content-between">
+                    {typeof item.name === 'string' ? (
+                      <>
+                        <div class="d-flex flex-row">
+                          <span class="badge fw-semibold text-bg-primary align-self-center">{index+1}</span>
+                          <span class="align-self-center mx-3 flex-grow">{item.name}</span>
+                        </div>
+                        <div class="d-flex">
+                          <button type="button" onClick={() => handleEditNote(index, { value: item.name })} class="btn btn-light mx-1 btn-sm align-self-center">📝</button>
+                          <button type="button" onClick={() => handleDeleteNote(index)} class="btn btn-warning btn-sm align-self-center">🗑️</button>              
+                        </div>
+                      </>
+                    ) : ( // if editing, show as edit input
+                      <>
+                        <input
+                          type="text"
+                          defaultValue={item.name.value}
+                          onBlur={(event) => handleEditNote(index, event.target.value)}
+                          class="btn btn-light btn-sm"
+                          className="form-control"
+                        />
+                        <div class="d-flex">
+                          {item.name.isEditing ? (
+                            <>
+                              <button type="button" onClick={() => handleDoneEditNote(index)} class="btn btn-primary mx-1 btn-sm align-self-center">Edit</button>
+                            </>
+                          ) : (
+                            <>
+                              <button type="button" onClick={() => handleDoneEditNote(index)} class="btn btn-success mx-1 btn-sm fw-bold align-self-center">✓</button>
+                            </>
+                          )}
+                          <button type="button" onClick={() => handleDeleteNote(index)} class="btn btn-warning btn-sm align-self-center">🗑️</button>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                </li>
+              ))}
+              </ul>
+            </div>
+            ) : ( // If searching, show the filter results
+            <>
+              <div class="d-flex justify-content-start">
+                {/* <span class="px-2"></span> */}
+                <div class="col-xl-3 me-4"></div>
+                <button type="button" class="btn btn-sm btn-success position-relative col-auto ms-xl-1 ms-4">
+                  Results
+                  <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill fw-medium text-bg-warning">
+                    {filteredResults.length > 0 ? filteredResults.length.toString() : "0"}
+                    <span class="visually-hidden">unread messages</span>
+                  </span>
+                </button>
+              </div>
+              <div class="mt-2 mx-5 d-flex justify-content-center">
+                <ul class="list-group col-xl-6 col-12">
+                  {filteredResults.length > 0 ? (
+                    filteredResults.map((result, index) => (
+                      <li key={index} class="list-group-item">
+                        <div class="d-flex justify-content-between">
+                          {result}
+                        </div>
+                      </li>
+                    ))
+                  ) : (
+                    <li class="list-group-item">
+                      <div class="d-flex justify-content-between">
+                        <span class="btn btn-warning">Nothing Found ⚠️</span>
+                      </div>
+                    </li>
+                  )}
+                </ul>
+              </div>
+            </>
+          )}
+                
         
 
          {/* Map Data Array */}
         { searchInput === "" ? ( // If not searching, show notes from database
           <div class="mt-3 mx-5 d-flex justify-content-center">
-
-            {/* <ul class="list-group col-xl-6 col-12">
-              {supabaseData.map((item)=>(
-                <li key={item.id} class="list-group-item">
-                  <div class="d-flex flex-row">
-                    <span class="badge fw-semibold text-bg-primary align-self-center">{item.id}</span>
-                    <span class="align-self-center mx-3 flex-grow">{item.name}</span>
-                  </div>
-                </li>
-              ))}
-            </ul> */}
-          
-
-            {/* <div>
-              {supabaseData.map((item) =>
-                item.sub === user?.sub && (
-                  <div key={item.id}>
-                    <h2>this is the new code</h2>
-                    <p>ID: {item.id}</p>
-                    <p>Name: {item.name}</p>
-                    <p>Sub: {item.sub}</p>
-                  </div>
-                )
-              )}
-            </div> */}
-
-
             <ul class="list-group col-xl-6 col-12">
               {notesData.map((note, index) => (
                 <li key={index} class="list-group-item">
